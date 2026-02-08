@@ -50,7 +50,9 @@ predictions = model.predict(X_test)
 predicted_labels = np.argmax(predictions, axis=1)
 
 # classification report
+print("Classification Report---------------------")
 print(classification_report(y_test, predicted_labels))
 
 # confusion matrix
+print("Confusion Matrix--------------------------")
 print(confusion_matrix(y_test, predicted_labels))
