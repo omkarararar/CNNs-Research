@@ -2,6 +2,7 @@ pandas
 numpy
 matplotlib
 tensorflow
+tensorflow-datasets
 seaborn
 scikit-learn
 opencv-python
