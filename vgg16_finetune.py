@@ -6,8 +6,8 @@ import json
 # parameters
 IMG_SIZE = 224
 BATCH_SIZE = 32
-EPOCHS_FEATURE = 3
-EPOCHS_FINE = 3
+EPOCHS_FEATURE = 10
+EPOCHS_FINE = 5
 
 # ------------------------------------------------
 # 1. Load Stanford Dogs dataset (120 breeds)
@@ -71,7 +71,7 @@ base_model.trainable = False
 # ------------------------------------------------
 model = models.Sequential([
     base_model,
-    layers.Flatten(),
+    layers.GlobalAveragePooling2D(),
     layers.Dense(256, activation="relu"),
     layers.Dropout(0.5),
     layers.Dense(num_classes, activation="softmax")
