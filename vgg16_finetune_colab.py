@@ -134,29 +134,33 @@ ax2.legend()
 plt.tight_layout()
 plt.show()
 
-# ---- CELL 10: Test on a sample image from the dataset ----
-for img, label in val_ds.take(1):
-    img_resized = tf.image.resize(img, (IMG_SIZE, IMG_SIZE))
-    x = tf.keras.applications.vgg16.preprocess_input(img_resized)
-    x = np.expand_dims(x, axis=0)
+# ---- CELL 10: Upload & test your own dog image ----
+from google.colab import files
+from tensorflow.keras.preprocessing import image
 
-    preds = model.predict(x)[0]
-    top5_idx = np.argsort(preds)[-5:][::-1]
+uploaded = files.upload()  # click "Choose Files" and pick a dog image
+img_path = list(uploaded.keys())[0]
 
-    true_breed = breed_names[label.numpy()].replace("_", " ").title()
-    print(f"\nTrue breed: {true_breed}")
-    print("-" * 40)
-    for i, idx in enumerate(top5_idx):
-        breed = breed_names[idx].replace("_", " ").title()
-        print(f"  {i+1}. {breed:30s} : {preds[idx]*100:.2f}%")
+img = image.load_img(img_path, target_size=(IMG_SIZE, IMG_SIZE))
+x = image.img_to_array(img)
+x = np.expand_dims(x, axis=0)
+x = tf.keras.applications.vgg16.preprocess_input(x)
 
-    plt.imshow(img.numpy().astype("uint8"))
-    pred_breed = breed_names[top5_idx[0]].replace("_", " ").title()
-    plt.title(f"True: {true_breed}\nPredicted: {pred_breed} ({preds[top5_idx[0]]*100:.1f}%)")
-    plt.axis("off")
-    plt.show()
+preds = model.predict(x)[0]
+top5_idx = np.argsort(preds)[-5:][::-1]
+
+print(f"\nPredictions for: {img_path}")
+print("-" * 40)
+for i, idx in enumerate(top5_idx):
+    breed = breed_names[idx].replace("_", " ").title()
+    print(f"  {i+1}. {breed:30s} : {preds[idx]*100:.2f}%")
+
+plt.imshow(image.load_img(img_path))
+pred_breed = breed_names[top5_idx[0]].replace("_", " ").title()
+plt.title(f"Predicted: {pred_breed} ({preds[top5_idx[0]]*100:.1f}%)")
+plt.axis("off")
+plt.show()
 
 # ---- CELL 11: Download model files to your local machine ----
-from google.colab import files
 files.download("vgg16_dog_finetuned.h5")
 files.download("breed_labels.json")
