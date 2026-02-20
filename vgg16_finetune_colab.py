@@ -141,7 +141,7 @@ from tensorflow.keras.preprocessing import image
 uploaded = files.upload()  # click "Choose Files" and pick a dog image
 img_path = list(uploaded.keys())[0]
 
-img = image.load_img(img_path, target_size=(IMG_SIZE, IMG_SIZE))
+img = image.load_img(img_path, target_size=(224, 224))
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis=0)
 x = tf.keras.applications.vgg16.preprocess_input(x)
