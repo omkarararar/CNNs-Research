@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing import image
 
 # Load model once
 model = MobileNetV2(weights="imagenet", include_top=True)
-img_path = r"C:\Users\Omkar\Downloads\CNNs\dog.jpg" # put your image here
+img_path = r"C:\Users\Omkar\Downloads\CNNs\dog.jpg" 
 
 def predict_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
@@ -21,8 +21,6 @@ def predict_image(img_path):
     for _, name, prob in decoded:
         print(f"{name:20s} : {prob:.4f}")
 
-
-# ---- run on any image you want ----
 
 predict_image(r"C:\Users\Omkar\Downloads\CNNs\dog.jpg")
 
